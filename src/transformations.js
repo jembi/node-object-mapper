@@ -56,6 +56,18 @@ var transforms = {
     })
     return names
   },
+  'getGenderFromCode': function (val) {
+    switch (val) {
+      case 'M':
+        return 'male'
+      case 'F':
+        return 'female'
+      case 'O':
+        return 'other'
+      default:
+        return 'unknown'
+    }
+  },
   'test-foo': function (value) {
     return value + '-foo';
   },
