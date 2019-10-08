@@ -40,6 +40,22 @@ var transforms = {
     })
     return identifiers
   },
+  'createBahniFhirName': function (val) {
+    const names = []
+    val.forEach(element => {
+      const humanName = {
+        text: element.display,
+        family: element.familyName,
+        given: [
+          element.givenName,
+          element.middleName
+        ]
+      }
+
+      names.push(humanName)
+    })
+    return names
+  },
   'test-foo': function (value) {
     return value + '-foo';
   },
