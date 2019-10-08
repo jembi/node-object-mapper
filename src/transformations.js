@@ -8,6 +8,38 @@ var transforms = {
 
     return stringISODateTime.split('T')[0]
   },
+  'createBahmniFhirIdentifier': function (val) {
+    const identifiers = []
+    val.forEach(element => {
+      const identifier = {
+        type: {
+          coding: [{
+            version: element.resourceVersion,
+            code: element.uuid,
+            display: element.identifierType.display
+          }],
+          text: element.display
+        },
+        value: element.identifier
+      }
+
+      if (
+        element.identifierType &&
+        Array.isArray(element.identifierType.links) &&
+        element.identifierType.links[0] &&
+        element.identifierType.links[0].uri
+      ) {
+        identifier.type.coding[0].system = element.identifierType.links[0].uri
+      }
+
+      if (Array.isArray(element.links) && element.links[0]) {
+        identifier.system = element.links[0].uri
+      }
+
+      identifiers.push(identifier)
+    })
+    return identifiers
+  },
   'test-foo': function (value) {
     return value + '-foo';
   },
