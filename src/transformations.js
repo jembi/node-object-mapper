@@ -68,6 +68,33 @@ var transforms = {
         return 'unknown'
     }
   },
+  'getBahmniFhirAddress': function (val) {
+    const addresses = []
+    val.forEach(element => {
+      const address = {
+        text: element.display,
+        line: [],
+        city: element.cityVillage,
+        district: element.countyDistrict,
+        state: element.stateProvince,
+        postalCode: element.postalCode,
+        country: element.country,
+        period: {
+          start: element.startDate,
+          end: element.endDate
+        }
+      }
+
+      Object.keys(element).forEach((key) => {
+        if (key.includes('address')) {
+          address.line.push(element[key])
+        }
+      })
+
+      addresses.push(address)
+    })
+    return addresses
+  },
   'test-foo': function (value) {
     return value + '-foo';
   },
