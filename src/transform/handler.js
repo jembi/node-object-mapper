@@ -11,10 +11,10 @@ const {tests} = require('./tests')
 
 const transform = {}
 
+Object.assign(transform, codes, dates, primitives)
+
 if (process.env.NODE_ENV === 'test') {
   Object.assign(transform, tests)
-} else {
-  Object.assign(transform, codes, dates, primitives)
 }
 
 module.exports = transform
