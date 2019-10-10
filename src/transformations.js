@@ -20,6 +20,13 @@ var transforms = {
         return 'unknown'
     }
   },
+  'booleanFlip': function (val) {
+    if (typeof val === 'boolean') {
+      return !val
+    }
+
+    return null
+  },
   'test-foo': function (value) {
     return value + '-foo';
   },
