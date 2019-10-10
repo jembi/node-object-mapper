@@ -1,4 +1,4 @@
-# object-mapper-core
+# Object Mapper
 
 [![Build Status](https://api.travis-ci.com/jembi/node-object-mapper.svg)](https://travis-ci.org/jembi/node-object-mapper)
 
