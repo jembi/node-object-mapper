@@ -15,4 +15,56 @@ test.test('Transformations', t => {
       t.end()
     })
   })
+
+  t.test('booleanFlip()', t => {
+    t.test('should convert true to false', t => {
+      const booleanInput = true
+      const expectedOutput = false
+
+      const result = transforms.booleanFlip(booleanInput)
+
+      t.equal(result, expectedOutput)
+      t.end()
+    })
+
+    t.test('should convert false to true', t => {
+      const booleanInput = false
+      const expectedOutput = true
+
+      const result = transforms.booleanFlip(booleanInput)
+
+      t.equal(result, expectedOutput)
+      t.end()
+    })
+
+    t.test('should return null if input is not a primitive boolean data type', t => {
+      const booleanInput = 'test'
+      const expectedOutput = null
+
+      const result = transforms.booleanFlip(booleanInput)
+
+      t.equal(result, expectedOutput)
+      t.end()
+    })
+
+    t.test('should return null if input is a falsy', t => {
+      const booleanInput = 0
+      const expectedOutput = null
+
+      const result = transforms.booleanFlip(booleanInput)
+
+      t.equal(result, expectedOutput)
+      t.end()
+    })
+
+    t.test('should return null if input is null', t => {
+      const booleanInput = null
+      const expectedOutput = null
+
+      const result = transforms.booleanFlip(booleanInput)
+
+      t.equal(result, expectedOutput)
+      t.end()
+    })
+  })
 })
