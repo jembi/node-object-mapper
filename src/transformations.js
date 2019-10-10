@@ -8,54 +8,6 @@ var transforms = {
 
     return stringISODateTime.split('T')[0]
   },
-  'createBahmniFhirIdentifier': function (val) {
-    const identifiers = []
-    val.forEach(element => {
-      const identifier = {
-        type: {
-          coding: [{
-            version: element.resourceVersion,
-            code: element.uuid,
-            display: element.identifierType.display
-          }],
-          text: element.display
-        },
-        value: element.identifier
-      }
-
-      if (
-        element.identifierType &&
-        Array.isArray(element.identifierType.links) &&
-        element.identifierType.links[0] &&
-        element.identifierType.links[0].uri
-      ) {
-        identifier.type.coding[0].system = element.identifierType.links[0].uri
-      }
-
-      if (Array.isArray(element.links) && element.links[0]) {
-        identifier.system = element.links[0].uri
-      }
-
-      identifiers.push(identifier)
-    })
-    return identifiers
-  },
-  'createBahniFhirName': function (val) {
-    const names = []
-    val.forEach(element => {
-      const humanName = {
-        text: element.display,
-        family: element.familyName,
-        given: [
-          element.givenName,
-          element.middleName
-        ]
-      }
-
-      names.push(humanName)
-    })
-    return names
-  },
   'getGenderFromCode': function (val) {
     switch (val) {
       case 'M':
@@ -67,33 +19,6 @@ var transforms = {
       default:
         return 'unknown'
     }
-  },
-  'getBahmniFhirAddress': function (val) {
-    const addresses = []
-    val.forEach(element => {
-      const address = {
-        text: element.display,
-        line: [],
-        city: element.cityVillage,
-        district: element.countyDistrict,
-        state: element.stateProvince,
-        postalCode: element.postalCode,
-        country: element.country,
-        period: {
-          start: element.startDate,
-          end: element.endDate
-        }
-      }
-
-      Object.keys(element).forEach((key) => {
-        if (key.includes('address')) {
-          address.line.push(element[key])
-        }
-      })
-
-      addresses.push(address)
-    })
-    return addresses
   },
   'test-foo': function (value) {
     return value + '-foo';
