@@ -4,7 +4,7 @@ var getKeyValue = require('./get-key-value')
   , _undefined
   ;
 
-var transforms = require('./transformations')
+var transforms = require('./transform/handler')
 
 /**
  * Map a object to another using the passed map

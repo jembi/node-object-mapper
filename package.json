@@ -8,7 +8,7 @@
     "url": "git://github.com/wankdanker/node-object-mapper.git"
   },
   "scripts": {
-    "test": "node test/test.js"
+    "test": "NODE_ENV=test node test/test.js"
   },
   "dependencies": {
     "minimatch": "^3.0.4"

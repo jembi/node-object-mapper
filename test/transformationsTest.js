@@ -1,7 +1,7 @@
 'use strict'
 
 const test = require('tape')
-const transformations = require('../src/transformations')
+const transformations = require('../src/transform/handler')
 
 test.test('Transformations', t => {
   t.test('dateTimeToDate()', t => {
