@@ -1,6 +1,6 @@
 {
   "author": "Jembi health Systems NPC",
-  "name": "object-mapper-core",
+  "name": "object-mapper",
   "description": "Map fields from one object to another user a user defined schema",
   "version": "1.0.0",
   "repository": {
