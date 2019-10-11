@@ -12,7 +12,7 @@ on a separate `Object`, which defines how the properties should be mapped.
 In your projects `package.json` file include the following line in the dependencies field:
 
 ```json
-"object-mapper": "jembi/node-object-mapper#master"
+"object-mapper": "jembi/node-object-mapper"
 ```
 
 ## Usage
