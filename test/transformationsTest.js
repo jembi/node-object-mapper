@@ -21,27 +21,171 @@ test.test('Transformations', t => {
       const inputCode = 'F'
       const expectedOutput = 'female'
 
-      const result = transforms['getGenderFromCode'](inputCode)
+      const functionParameters = {
+        F: 'female',
+        M: 'male',
+        O: 'other'
+      }
+
+      const result = transforms['mapCodes'](
+        inputCode,
+        null,
+        null,
+        null,
+        null,
+        functionParameters
+      )
 
       t.equal(result, expectedOutput)
       t.end()
     })
 
-    t.test('should convert unhandled gender codes to unknown', t => {
-      const inputCode = 7
-      const expectedOutput = 'unknown'
+    t.test('should convert unhandled code to null', t => {
+      const inputCode = 'F'
+      const expectedOutput = 'female'
 
-      const result = transforms['getGenderFromCode'](inputCode)
+      const functionParameters = {
+        F: 'female',
+        M: 'male',
+        O: 'other'
+      }
+
+      const result = transforms['mapCodes'](
+        inputCode,
+        null,
+        null,
+        null,
+        null,
+        functionParameters
+      )
 
       t.equal(result, expectedOutput)
       t.end()
     })
 
-    t.test('should convert null gender codes to unknown', t => {
+    t.test(
+      'should convert unhandled codes to default value if specified',
+      t => {
+        const inputCode = 7
+        const expectedOutput = 'unknown'
+        const functionParameters = {
+          F: 'female',
+          M: 'male',
+          O: 'other',
+          default: 'unknown'
+        }
+
+        const result = transforms['mapCodes'](
+          inputCode,
+          null,
+          null,
+          null,
+          null,
+          functionParameters
+        )
+
+        t.equal(result, expectedOutput)
+        t.end()
+      }
+    )
+
+    t.test(
+      'should convert unhandled codes to null if no default specified',
+      t => {
+        const inputCode = 7
+        const expectedOutput = undefined
+        const functionParameters = {
+          F: 'female',
+          M: 'male',
+          O: 'other'
+        }
+
+        const result = transforms['mapCodes'](
+          inputCode,
+          null,
+          null,
+          null,
+          null,
+          functionParameters
+        )
+
+        t.equal(result, expectedOutput)
+        t.end()
+      }
+    )
+
+    t.test(
+      'should convert null codes to value if null case is specified',
+      t => {
+        const inputCode = null
+        const expectedOutput = 'unknown'
+
+        const functionParameters = {
+          F: 'female',
+          M: 'male',
+          O: 'other',
+          null: 'unknown'
+        }
+
+        const result = transforms['mapCodes'](
+          inputCode,
+          null,
+          null,
+          null,
+          null,
+          functionParameters
+        )
+
+        t.equal(result, expectedOutput)
+        t.end()
+      }
+    )
+
+    t.test(
+      'should convert null codes to default value if null case is not specified but default is',
+      t => {
+        const inputCode = null
+        const expectedOutput = 'unknown'
+
+        const functionParameters = {
+          F: 'female',
+          M: 'male',
+          O: 'other',
+          default: 'unknown'
+        }
+
+        const result = transforms['mapCodes'](
+          inputCode,
+          null,
+          null,
+          null,
+          null,
+          functionParameters
+        )
+
+        t.equal(result, expectedOutput)
+        t.end()
+      }
+    )
+
+    t.test('should convert null code to null if not handled', t => {
       const inputCode = null
-      const expectedOutput = 'unknown'
+      const expectedOutput = null
 
-      const result = transforms['getGenderFromCode'](inputCode)
+      const functionParameters = {
+        F: 'female',
+        M: 'male',
+        O: 'other'
+      }
+
+      const result = transforms['mapCodes'](
+        inputCode,
+        null,
+        null,
+        null,
+        null,
+        functionParameters
+      )
 
       t.equal(result, expectedOutput)
       t.end()
@@ -96,6 +240,18 @@ test.test('Transformations', t => {
       const result = transforms.booleanFlip(booleanInput)
 
       t.equal(result, expectedOutput)
+      t.end()
+    })
+  })
+
+  t.test('booleanify', t => {
+    t.test('should convert convert empty string to false', t => {
+      const input = ''
+      const expected = false
+
+      const result = transforms['booleanify'](input)
+
+      t.equal(result, expected)
       t.end()
     })
   })

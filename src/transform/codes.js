@@ -4,16 +4,25 @@
 // transforming system codes to values or vice versa
 
 exports.codes = {
-  'getGenderFromCode': function (val) {
-    switch (val) {
-      case 'M':
-        return 'male'
-      case 'F':
-        return 'female'
-      case 'O':
-        return 'other'
-      default:
-        return 'unknown'
+  mapCodes: function(
+    val,
+    _fromObject,
+    _toObject,
+    _fromKey,
+    _toKey,
+    parameters
+  ) {
+    const parameterKeys = Object.keys(parameters)
+    if (val === null) {
+      if (parameterKeys.includes('null')) {
+        return parameters['null']
+      }
+      if (parameterKeys.includes('default')) {
+        return parameters['default']
+      }
+      return null
+    } else {
+      return parameters[val] ? parameters[val] : parameters['default']
     }
   }
 }
