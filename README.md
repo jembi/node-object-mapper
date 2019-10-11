@@ -54,9 +54,9 @@ You may also specify `Array` lookups within the source `Object` to be copied to 
 
 You may specify the destination as:
 
-* String
-* Object
-* Array
+- String
+- Object
+- Array
 
 #### String
 
@@ -71,8 +71,7 @@ var map = {
   "foo": [
     {
       key: "foo",
-      transform:
-        {
+      transform: {
           function: 'example-function-foo'
         }
       }
@@ -176,16 +175,16 @@ By default `null` values on the source `Object` is not mapped. You can override 
 
 ```javascript
 var original = {
-  "sourceKey": null,
-  "otherSourceKey": null
+  sourceKey: null,
+  otherSourceKey: null
 }
 
 var transform = {
-  "sourceKey": "canBeNull?",
-  "otherSourceKey": "cannotBeNull"
+  sourceKey: 'canBeNull?',
+  otherSourceKey: 'cannotBeNull'
 }
 
-var results = ObjectMapper(original, {}, transform);
+var results = ObjectMapper(original, {}, transform)
 
 // Results would be the following
 {
@@ -210,10 +209,10 @@ mapping defined by **mapObject**
 
 This function is also exported directly from `require('object-mapper')` (ie: `var merge = require('object-mapper');`)
 
-* **sourceObject** is the object FROM which properties will be copied.
-* **destinationObject** [OPTIONAL] is the object TO which properties will be copied.
-* **mapObject** is the object which defines how properties are copied from
-**sourceObject** to **destinationObject**
+- **sourceObject** is the object FROM which properties will be copied.
+- **destinationObject** [OPTIONAL] is the object TO which properties will be copied.
+- **mapObject** is the object which defines how properties are copied from
+  **sourceObject** to **destinationObject**
 
 ### `.getKeyValue(sourceObject, key)`
 
@@ -221,8 +220,8 @@ Get the `key` value within **sourceObject**, going deep within the object if nec
 This method is used internally but is exposed because it may be of use elsewhere
 with other projects.
 
-* **sourceObject** is the object from which you would like to get a property/key value.
-* **key** is the name of the property/key you would like to retrieve.
+- **sourceObject** is the object from which you would like to get a property/key value.
+- **key** is the name of the property/key you would like to retrieve.
 
 ### `.setKeyValue(destinationObject, key, value)`
 
@@ -230,40 +229,40 @@ Set the `key` value within **destinationObject**, going deep within the object i
 method is used internally but is exposed because it may be of use elsewhere with
 other projects.
 
-* **destinationObject** is the object within which the property/key will be set.
-* **key** is the name of the property/key which will be set.
-* **value** is the value of the property/key.
+- **destinationObject** is the object within which the property/key will be set.
+- **key** is the name of the property/key which will be set.
+- **value** is the value of the property/key.
 
 ## Example
 
 ```javascript
-var objectMapper = require('object-mapper');
+var objectMapper = require('object-mapper')
 
 var src = {
-  "sku": "12345",
-  "upc": "99999912345X",
-  "title": "Test Item",
-  "description": "Description of test item",
-  "length": 5,
-  "width": 2,
-  "height": 8,
-  "inventory": {
-    "onHandQty": 12
+  sku: '12345',
+  upc: '99999912345X',
+  title: 'Test Item',
+  description: 'Description of test item',
+  length: 5,
+  width: 2,
+  height: 8,
+  inventory: {
+    onHandQty: 12
   }
-};
+}
 
 var map = {
-  "sku": "Envelope.Request.Item.SKU",
-  "upc": "Envelope.Request.Item.UPC",
-  "title": "Envelope.Request.Item.ShortTitle",
-  "description": "Envelope.Request.Item.ShortDescription",
-  "length": "Envelope.Request.Item.Dimensions.Length",
-  "width": "Envelope.Request.Item.Dimensions.Width",
-  "height": "Envelope.Request.Item.Dimensions.Height",
-  "inventory.onHandQty": "Envelope.Request.Item.Inventory"
-};
+  sku: 'Envelope.Request.Item.SKU',
+  upc: 'Envelope.Request.Item.UPC',
+  title: 'Envelope.Request.Item.ShortTitle',
+  description: 'Envelope.Request.Item.ShortDescription',
+  length: 'Envelope.Request.Item.Dimensions.Length',
+  width: 'Envelope.Request.Item.Dimensions.Width',
+  height: 'Envelope.Request.Item.Dimensions.Height',
+  'inventory.onHandQty': 'Envelope.Request.Item.Inventory'
+}
 
-var dest = objectMapper(obj, map);
+var dest = objectMapper(obj, map)
 
 /*
 {
