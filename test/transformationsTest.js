@@ -67,7 +67,7 @@ test.test('Transformations', t => {
     )
 
     t.test(
-      'should convert unhandled codes to null if no default specified',
+      'should convert unhandled codes to undefined if no default specified',
       t => {
         const inputCode = 7
         const expectedOutput = undefined
