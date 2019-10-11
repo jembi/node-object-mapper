@@ -40,29 +40,6 @@ test.test('Transformations', t => {
       t.end()
     })
 
-    t.test('should convert unhandled code to null', t => {
-      const inputCode = 'F'
-      const expectedOutput = 'female'
-
-      const functionParameters = {
-        F: 'female',
-        M: 'male',
-        O: 'other'
-      }
-
-      const result = transforms['mapCodes'](
-        inputCode,
-        null,
-        null,
-        null,
-        null,
-        functionParameters
-      )
-
-      t.equal(result, expectedOutput)
-      t.end()
-    })
-
     t.test(
       'should convert unhandled codes to default value if specified',
       t => {
