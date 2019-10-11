@@ -211,8 +211,7 @@ This function is also exported directly from `require('object-mapper')` (ie: `va
 
 - **sourceObject** is the object FROM which properties will be copied.
 - **destinationObject** [OPTIONAL] is the object TO which properties will be copied.
-- **mapObject** is the object which defines how properties are copied from
-  **sourceObject** to **destinationObject**
+- **mapObject** is the object which defines how properties are copied from **sourceObject** to **destinationObject**.
 
 ### `.getKeyValue(sourceObject, key)`
 
