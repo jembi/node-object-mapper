@@ -248,9 +248,39 @@ test.test('Transformations', t => {
   })
 
   t.test('booleanify', t => {
-    t.test('should convert convert empty string to false', t => {
+    t.test('should convert empty string to false', t => {
       const input = ''
       const expected = false
+
+      const result = transforms['booleanify'](input)
+
+      t.equal(result, expected)
+      t.end()
+    })
+
+    t.test('should return null if input is null', t => {
+      const input = null
+      const expected = null
+
+      const result = transforms['booleanify'](input)
+
+      t.equal(result, expected)
+      t.end()
+    })
+
+    t.test('should return false if input is string false', t => {
+      const input = 'false'
+      const expected = false
+
+      const result = transforms['booleanify'](input)
+
+      t.equal(result, expected)
+      t.end()
+    })
+
+    t.test('should return true if input is a truthy', t => {
+      const input = []
+      const expected = true
 
       const result = transforms['booleanify'](input)
 
