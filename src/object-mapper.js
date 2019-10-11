@@ -110,12 +110,13 @@ function _mapKey(fromObject, fromKey, toObject, toKey) {
 
   if (typeof fromValue !== 'undefined' && transform && typeof transform.function === 'string') {
     var functionKey = transform.function
+    var functionParameters = transform.parameters
     if (transforms[functionKey]) {
       transform = transforms[functionKey]
     } else {
       throw new Error('No function exists for key: ' + functionKey)
     }
-    fromValue = transform(fromValue, fromObject, toObject, fromKey, toKey);
+    fromValue = transform(fromValue, fromObject, toObject, fromKey, toKey, functionParameters);
   }
 
   if (typeof fromValue === 'undefined' || typeof toKey === 'undefined') {
