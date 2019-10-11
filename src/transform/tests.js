@@ -10,13 +10,11 @@ exports.tests = {
     dst.manual = val.a + val.b
   },
   'test-empty-array': function(sourceValue) {
-    var i
-
     if (!Array.isArray(sourceValue)) {
       return null
     }
 
-    for (i = 0; i < sourceValue.length; i++) {
+    for (var i = 0; i < sourceValue.length; i++) {
       if (sourceValue[i].primary) {
         return {
           code: sourceValue[i].country_code,
