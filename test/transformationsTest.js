@@ -237,7 +237,7 @@ test.test('Transformations', t => {
 
     t.test('should return null if input is null', t => {
       const input = null
-      const expected = null
+      const expected = false
 
       const result = transforms['booleanify'](input)
 
@@ -247,8 +247,7 @@ test.test('Transformations', t => {
 
     t.test('should return false if input is string false', t => {
       const input = 'false'
-      const expected = false
-
+      const expected = true
       const result = transforms['booleanify'](input)
 
       t.equal(result, expected)
