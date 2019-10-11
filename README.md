@@ -1,6 +1,6 @@
-# object-mapper
+# Object Mapper
 
-[![Build Status](https://travis-ci.org/wankdanker/node-object-mapper.svg)](https://travis-ci.org/wankdanker/node-object-mapper) [![Join the chat at https://gitter.im/wankdanker/node-object-mapper](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/wankdanker/node-object-mapper?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://api.travis-ci.com/jembi/node-object-mapper.svg)](https://travis-ci.org/jembi/node-object-mapper)
 
 ## About
 
@@ -9,8 +9,10 @@ on a separate `Object`, which defines how the properties should be mapped.
 
 ## Installation
 
-```shell
-$ npm install --save object-mapper
+In your projects `package.json` file include the following line in the dependencies field:
+
+```json
+"object-mapper": "jembi/node-object-mapper"
 ```
 
 ## Usage
@@ -51,9 +53,10 @@ You may also specify `Array` lookups within the source `Object` to be copied to 
 ### Destination
 
 You may specify the destination as:
- - String
- - Object
- - Array
+
+- String
+- Object
+- Array
 
 #### String
 
@@ -68,14 +71,15 @@ var map = {
   "foo": [
     {
       key: "foo",
-      transform: function (value) { 
-        return value + "_foo";
+      transform: {
+          function: 'example-function-foo'
+        }
       }
     },
     {
       key: "baz",
-      transform: function (value) {
-        return value + "_baz";
+      transform: {
+        function: 'example-function-baz'
       }
     }
   ],
@@ -83,15 +87,27 @@ var map = {
 };
 
 var src = {
-	foo: 'blah',
-	bar: 'something'
+  foo: 'blah',
+  bar: 'something'
 };
 
 var dest = objectMapper(src, map);
 
+// Object mapper pre-configured transform function file transform.js
+
+exports.transform = {
+  'example-function-foo': (value) => {
+    return value + '_foo'
+  },
+  'example-function-baz': (value) => {
+    return value + '_baz'
+  }
+}
+
+
 // dest.foo: 'blah_foo'
 // dest.baz: 'blah_baz'
-// dest.bar: 'something' 
+// dest.bar: 'something'
 ```
 
 #### Object
@@ -105,16 +121,6 @@ Using an `Object` as the destination:
   "default": (Function()|String|Number)
 }
 ```
-
-##### Methods
-
-###### transform(sourceValue, sourceObject, destinationObject, destinationKey);
-
-Specify the mapping of a **sourceValue** as you need;
-
-###### default(sourceObject, sourceKey, destinationObject, destinationKey);
-
-Specify a _default_ return value when the **sourceValue** is `undefined` or `null`.
 
 #### Array
 
@@ -131,15 +137,20 @@ When using an `Array` as the destination you can pass a `String`, an `Object` or
 ```
 
 If you want to append items to an existing `Array`, append a `+` after the `[]`
-```javascript
+
+```json
 {
   "sourceArray[]": {
     "key": "destination[]+",
-    "transform": (val) => mappingFunction(val)
+    "transform": {
+      "function": "function-name-key"
+    }
   },
   "otherSourceArray[]": {
     "key": "destination[]+",
-    "transform": (val) => mappingFunction(val)
+    "transform": {
+      "function": "function-name-key"
+    }
   }
 }
 
@@ -155,7 +166,7 @@ If you want to append items to an existing `Array`, append a `+` after the `[]`
 The `Array` shorthand for an `Object`:
 
 ```javascript
-[(Key(String))), (Transform(Function())), (Default(String|Number|Function()))]
+[(Key(String))), {'function': 'function-name-key'}, (Default(String|Number|Function()))]
 ```
 
 ### Null Values
@@ -164,16 +175,16 @@ By default `null` values on the source `Object` is not mapped. You can override 
 
 ```javascript
 var original = {
-  "sourceKey": null,
-  "otherSourceKey": null
+  sourceKey: null,
+  otherSourceKey: null
 }
 
 var transform = {
-  "sourceKey": "canBeNull?",
-  "otherSourceKey": "cannotBeNull"
+  sourceKey: 'canBeNull?',
+  otherSourceKey: 'cannotBeNull'
 }
 
-var results = ObjectMapper(original, {}, transform);
+var results = ObjectMapper(original, {}, transform)
 
 // Results would be the following
 {
@@ -183,67 +194,74 @@ var results = ObjectMapper(original, {}, transform);
 
 ## Methods
 
-### .merge(sourceObject[, destinationObject], mapObject);
+### `transform(sourceValue, sourceObject, destinationObject, destinationKey)`
+
+Specify the mapping of a **sourceValue** as you need;
+
+### `default(sourceObject, sourceKey, destinationObject, destinationKey)`
+
+Specify a _default_ return value when the **sourceValue** is `undefined` or `null`.
+
+### `.merge(sourceObject[, destinationObject], mapObject)`
 
 Copy properties from **sourceObject** to **destinationObject** by following the
 mapping defined by **mapObject**
 
 This function is also exported directly from `require('object-mapper')` (ie: `var merge = require('object-mapper');`)
 
- - **sourceObject** is the object FROM which properties will be copied.
- - **destinationObject** [OPTIONAL] is the object TO which properties will be copied.
- - **mapObject** is the object which defines how properties are copied from
-**sourceObject** to **destinationObject**
+- **sourceObject** is the object FROM which properties will be copied.
+- **destinationObject** [OPTIONAL] is the object TO which properties will be copied.
+- **mapObject** is the object which defines how properties are copied from **sourceObject** to **destinationObject**.
 
-### .getKeyValue(sourceObject, key);
+### `.getKeyValue(sourceObject, key)`
 
 Get the `key` value within **sourceObject**, going deep within the object if necessary.
 This method is used internally but is exposed because it may be of use elsewhere
 with other projects.
 
- - **sourceObject** is the object from which you would like to get a property/key value.
- - **key** is the name of the property/key you would like to retrieve.
+- **sourceObject** is the object from which you would like to get a property/key value.
+- **key** is the name of the property/key you would like to retrieve.
 
-### .setKeyValue(destinationObject, key, value);
+### `.setKeyValue(destinationObject, key, value)`
 
 Set the `key` value within **destinationObject**, going deep within the object if necessary.This
 method is used internally but is exposed because it may be of use elsewhere with
 other projects.
 
- - **destinationObject** is the object within which the property/key will be set.
- - **key** is the name of the property/key which will be set.
- - **value** is the value of the property/key.
+- **destinationObject** is the object within which the property/key will be set.
+- **key** is the name of the property/key which will be set.
+- **value** is the value of the property/key.
 
 ## Example
 
 ```javascript
-var objectMapper = require('object-mapper');
+var objectMapper = require('object-mapper')
 
 var src = {
-  "sku": "12345",
-  "upc": "99999912345X",
-  "title": "Test Item",
-  "description": "Description of test item",
-  "length": 5,
-  "width": 2,
-  "height": 8,
-  "inventory": {
-    "onHandQty": 12
+  sku: '12345',
+  upc: '99999912345X',
+  title: 'Test Item',
+  description: 'Description of test item',
+  length: 5,
+  width: 2,
+  height: 8,
+  inventory: {
+    onHandQty: 12
   }
-};
+}
 
 var map = {
-  "sku": "Envelope.Request.Item.SKU",
-  "upc": "Envelope.Request.Item.UPC",
-  "title": "Envelope.Request.Item.ShortTitle",
-  "description": "Envelope.Request.Item.ShortDescription",
-  "length": "Envelope.Request.Item.Dimensions.Length",
-  "width": "Envelope.Request.Item.Dimensions.Width",
-  "height": "Envelope.Request.Item.Dimensions.Height",
-  "inventory.onHandQty": "Envelope.Request.Item.Inventory"
-};
+  sku: 'Envelope.Request.Item.SKU',
+  upc: 'Envelope.Request.Item.UPC',
+  title: 'Envelope.Request.Item.ShortTitle',
+  description: 'Envelope.Request.Item.ShortDescription',
+  length: 'Envelope.Request.Item.Dimensions.Length',
+  width: 'Envelope.Request.Item.Dimensions.Width',
+  height: 'Envelope.Request.Item.Dimensions.Height',
+  'inventory.onHandQty': 'Envelope.Request.Item.Inventory'
+}
 
-var dest = objectMapper(obj, map);
+var dest = objectMapper(obj, map)
 
 /*
 {
@@ -267,19 +285,11 @@ var dest = objectMapper(obj, map);
 */
 ```
 
-## Use case
-
-I use the **object-mapper's** `merge()` method to map values from records
-returned from a database into horribly complex objects that will be eventually
-turned in to XML.
-
-
 ## License
 
 ### The MIT License (MIT)
 
-
-Copyright (c) 2012 Daniel L. VerWeire
+Copyright (c) 2019 Jembi Health Systems
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
