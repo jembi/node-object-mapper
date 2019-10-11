@@ -213,15 +213,18 @@ test.test('Transformations', t => {
       t.end()
     })
 
-    t.test('should return null if input is not a primitive boolean data type', t => {
-      const booleanInput = 'test'
-      const expectedOutput = null
+    t.test(
+      'should return null if input is not a primitive boolean data type',
+      t => {
+        const booleanInput = 'test'
+        const expectedOutput = null
 
-      const result = transforms.booleanFlip(booleanInput)
+        const result = transforms.booleanFlip(booleanInput)
 
-      t.equal(result, expectedOutput)
-      t.end()
-    })
+        t.equal(result, expectedOutput)
+        t.end()
+      }
+    )
 
     t.test('should return null if input is a falsy', t => {
       const booleanInput = 0
