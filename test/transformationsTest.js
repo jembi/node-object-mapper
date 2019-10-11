@@ -16,7 +16,7 @@ test.test('Transformations', t => {
     })
   })
 
-  t.test('getGenderFromCode()', t => {
+  t.test('mapCodes()', t => {
     t.test('should convert single letter code to word', t => {
       const inputCode = 'F'
       const expectedOutput = 'female'
