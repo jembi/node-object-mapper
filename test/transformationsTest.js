@@ -235,7 +235,7 @@ test.test('Transformations', t => {
       t.end()
     })
 
-    t.test('should return null if input is null', t => {
+    t.test('should return false if input is null', t => {
       const input = null
       const expected = false
 
