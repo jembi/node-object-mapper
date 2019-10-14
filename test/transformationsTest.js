@@ -14,6 +14,26 @@ test.test('Transformations', t => {
       t.equal(result, expected)
       t.end()
     })
+
+    t.test('should return unchanged val if val is in unexpected format', t => {
+      const inputDate = '1988'
+      const expected = '1988'
+
+      const result = transforms['dateTimeToDate'](inputDate)
+
+      t.equal(result, expected)
+      t.end()
+    })
+
+    t.test('should return null if val is falsy', t => {
+      const inputDate = ''
+      const expected = null
+
+      const result = transforms['dateTimeToDate'](inputDate)
+
+      t.equal(result, expected)
+      t.end()
+    })
   })
 
   t.test('mapCodes()', t => {
@@ -235,9 +255,9 @@ test.test('Transformations', t => {
       t.end()
     })
 
-    t.test('should return null if input is null', t => {
+    t.test('should return false if input is null', t => {
       const input = null
-      const expected = null
+      const expected = false
 
       const result = transforms['booleanify'](input)
 
@@ -247,8 +267,7 @@ test.test('Transformations', t => {
 
     t.test('should return false if input is string false', t => {
       const input = 'false'
-      const expected = false
-
+      const expected = true
       const result = transforms['booleanify'](input)
 
       t.equal(result, expected)
@@ -262,6 +281,100 @@ test.test('Transformations', t => {
       const result = transforms['booleanify'](input)
 
       t.equal(result, expected)
+      t.end()
+    })
+  })
+
+  t.test('stringify()', t => {
+    t.test('convert number to string', t => {
+      const input = 1
+      const expectedOutput = '1'
+
+      const result = transforms['stringify'](input)
+
+      t.equal(result, expectedOutput)
+      t.end()
+    })
+
+    t.test('convert null to string', t => {
+      const input = null
+      const expectedOutput = 'null'
+
+      const result = transforms['stringify'](input)
+
+      t.equal(result, expectedOutput)
+      t.end()
+    })
+
+    t.test('return unchanged value if the value is of type string', t => {
+      const input = 'test'
+      const expectedOutput = 'test'
+
+      const result = transforms['stringify'](input)
+
+      t.equal(result, expectedOutput)
+      t.end()
+    })
+
+    t.test('should JSON stringify whole objects', t => {
+      const input = {
+        testArray: [
+          {},
+          {
+            testField: 'test'
+          }
+        ],
+        testObject: {
+          testField: 'test'
+        }
+      }
+      const expectedOutput = '{"testArray":[{},{"testField":"test"}],"testObject":{"testField":"test"}}'
+
+      const result = transforms['stringify'](input)
+
+      t.equal(result, expectedOutput)
+      t.end()
+    })
+  })
+
+  t.test('numberify()', t => {
+    t.test('convert valid string to number', t => {
+      const input = '1'
+      const expectedOutput = 1
+
+      const result = transforms['numberify'](input)
+
+      t.equal(result, expectedOutput)
+      t.end()
+    })
+
+    t.test('convert null to 0', t => {
+      const input = null
+      const expectedOutput = 0
+
+      const result = transforms['numberify'](input)
+
+      t.equal(result, expectedOutput)
+      t.end()
+    })
+
+    t.test('convert empty object to null', t => {
+      const input = {}
+      const expectedOutput = null
+
+      const result = transforms['numberify'](input)
+
+      t.equal(result, expectedOutput)
+      t.end()
+    })
+
+    t.test('convert invalid string to null', t => {
+      const input = 'test'
+      const expectedOutput = null
+
+      const result = transforms['numberify'](input)
+
+      t.equal(result, expectedOutput)
       t.end()
     })
   })
