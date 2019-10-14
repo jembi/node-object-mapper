@@ -264,4 +264,68 @@ test.test('Transformations', t => {
       t.end()
     })
   })
+
+  t.test('stringify()', t => {
+    t.test('convert number to string', t => {
+      const input = 1
+      const expectedOutput = '1'
+
+      const result = transforms['stringify'](input)
+
+      t.equal(result, expectedOutput)
+      t.end()
+    })
+
+    t.test('convert null to string', t => {
+      const input = null
+      const expectedOutput = 'null'
+
+      const result = transforms['stringify'](input)
+
+      t.equal(result, expectedOutput)
+      t.end()
+    })
+
+    t.test('convert empty object to [object Object]', t => {
+      const input = {}
+      const expectedOutput = '[object Object]'
+
+      const result = transforms['stringify'](input)
+
+      t.equal(result, expectedOutput)
+      t.end()
+    })
+  })
+
+  t.test('numberify()', t => {
+    t.test('convert string to number', t => {
+      const input = '1'
+      const expectedOutput = 1
+
+      const result = transforms['numberify'](input)
+
+      t.equal(result, expectedOutput)
+      t.end()
+    })
+
+    t.test('convert null to 0', t => {
+      const input = null
+      const expectedOutput = 0
+
+      const result = transforms['numberify'](input)
+
+      t.equal(result, expectedOutput)
+      t.end()
+    })
+
+    t.test('convert empty object to NaN', t => {
+      const input = {}
+
+      const result = transforms['numberify'](input)
+
+      t.equal(typeof result, 'number')
+      t.assert(isNaN(result))
+      t.end()
+    })
+  })
 })

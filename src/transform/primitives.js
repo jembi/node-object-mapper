@@ -15,5 +15,11 @@ exports.primitives = {
     // all other values will be converted to boolean by their truthy or falsy value
     // ie: 0, 0n, '', ``, "", NaN, and false are falsy and everything else including -1, {}, and [] are truthy
     return Boolean(val)
+  },
+  numberify: function(val) {
+    return Number(val)
+  },
+  stringify: function(val) {
+    return String(val)
   }
 }
