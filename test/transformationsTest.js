@@ -15,7 +15,7 @@ test.test('Transformations', t => {
       t.end()
     })
 
-    t.test('should return unchanged val if not in val is in unexpected format', t => {
+    t.test('should return unchanged val if val is in unexpected format', t => {
       const inputDate = '1988'
       const expected = '1988'
 
