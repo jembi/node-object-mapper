@@ -286,9 +286,29 @@ test.test('Transformations', t => {
       t.end()
     })
 
-    t.test('convert empty object to [object Object]', t => {
-      const input = {}
-      const expectedOutput = '[object Object]'
+    t.test('return unchanged value if the value is of type string', t => {
+      const input = 'test'
+      const expectedOutput = 'test'
+
+      const result = transforms['stringify'](input)
+
+      t.equal(result, expectedOutput)
+      t.end()
+    })
+
+    t.test('should JSON stringify whole objects', t => {
+      const input = {
+        testArray: [
+          {},
+          {
+            testField: 'test'
+          }
+        ],
+        testObject: {
+          testField: 'test'
+        }
+      }
+      const expectedOutput = '{"testArray":[{},{"testField":"test"}],"testObject":{"testField":"test"}}'
 
       const result = transforms['stringify'](input)
 

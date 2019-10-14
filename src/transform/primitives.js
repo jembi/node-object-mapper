@@ -20,6 +20,10 @@ exports.primitives = {
     return Number(val)
   },
   stringify: function(val) {
-    return String(val)
+    if (typeof val === 'string') {
+      return val
+    }
+
+    return JSON.stringify(val)
   }
 }
