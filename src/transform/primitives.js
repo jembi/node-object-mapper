@@ -17,7 +17,7 @@ exports.primitives = {
     return Boolean(val)
   },
   numberify: function(val) {
-    return Number(val)
+    return isNaN(val) ? null : Number(val)
   },
   stringify: function(val) {
     if (typeof val === 'string') {

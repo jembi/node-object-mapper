@@ -318,7 +318,7 @@ test.test('Transformations', t => {
   })
 
   t.test('numberify()', t => {
-    t.test('convert string to number', t => {
+    t.test('convert valid string to number', t => {
       const input = '1'
       const expectedOutput = 1
 
@@ -338,13 +338,23 @@ test.test('Transformations', t => {
       t.end()
     })
 
-    t.test('convert empty object to NaN', t => {
+    t.test('convert empty object to null', t => {
       const input = {}
+      const expectedOutput = null
 
       const result = transforms['numberify'](input)
 
-      t.equal(typeof result, 'number')
-      t.assert(isNaN(result))
+      t.equal(result, expectedOutput)
+      t.end()
+    })
+
+    t.test('convert invalid string to null', t => {
+      const input = 'test'
+      const expectedOutput = null
+
+      const result = transforms['numberify'](input)
+
+      t.equal(result, expectedOutput)
       t.end()
     })
   })
