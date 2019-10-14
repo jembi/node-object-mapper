@@ -14,6 +14,26 @@ test.test('Transformations', t => {
       t.equal(result, expected)
       t.end()
     })
+
+    t.test('should return unchanged val if not in val is in unexpected format', t => {
+      const inputDate = '1988'
+      const expected = '1988'
+
+      const result = transforms['dateTimeToDate'](inputDate)
+
+      t.equal(result, expected)
+      t.end()
+    })
+
+    t.test('should return null if val is falsy', t => {
+      const inputDate = ''
+      const expected = null
+
+      const result = transforms['dateTimeToDate'](inputDate)
+
+      t.equal(result, expected)
+      t.end()
+    })
   })
 
   t.test('mapCodes()', t => {
