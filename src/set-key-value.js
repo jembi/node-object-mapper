@@ -63,8 +63,12 @@ function _setValue(destinationObject, key, keys, fromValue) {
     , value
     ;
 
+  // Object Mapper defaults to not sending through null values to output object.
+  // adding a '?' to the end of the mapping schema line indicates that the null
+  // should be persisted to the output
   canBeNull = regCanBeNull.test(key);
   if(canBeNull){
+    // Removes the '?' from the key
     key = key.replace(regCanBeNull, '');
   }
 

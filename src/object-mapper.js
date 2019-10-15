@@ -51,8 +51,10 @@ function _map(fromObject, toObject, propertyMap, propertyKeys) {
     ;
 
   if (propertyKeys.length) {
+    // Takes first item off array and assigns it to fromKey
     fromKey = propertyKeys.splice(0, 1)[0];
     if (propertyMap.hasOwnProperty(fromKey)) {
+      // Destination object field location
       toKey = propertyMap[fromKey];
 
       toObject = _mapKey(fromObject, fromKey, toObject, toKey);
@@ -81,6 +83,7 @@ function _mapKey(fromObject, fromKey, toObject, toKey) {
     , transform
     ;
 
+  // toKey.length checks array length is not 0
   if (Array.isArray(toKey) && toKey.length) {
     toKey = toKey.slice();
     restToKeys = toKey.splice(1);
@@ -93,12 +96,14 @@ function _mapKey(fromObject, fromKey, toObject, toKey) {
     toKey = toKey.key;
   }
 
+  // Handles any array - even array length 0?
   if (Array.isArray(toKey)) {
     transform = toKey[1];
     _default = toKey[2] || null;
     toKey = toKey[0];
   }
 
+  // Applies default value
   if (typeof _default === 'function') {
     _default = _default(fromObject, fromKey, toObject, toKey);
   }
