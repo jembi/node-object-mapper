@@ -1,8 +1,8 @@
-'use strict';
-var getKeyValue = require('./get-key-value')
-  , setKeyValue = require('./set-key-value')
-  , _undefined
-  ;
+'use strict'
+
+var getKeyValue = require('./get-key-value'),
+  setKeyValue = require('./set-key-value'),
+  _undefined
 
 var transforms = require('./transform/handler')
 
@@ -14,26 +14,28 @@ var transforms = require('./transform/handler')
  * @returns {*}
  * @constructor
  */
+
 function ObjectMapper(fromObject, toObject, propertyMap) {
-  var propertyKeys;
+  var propertyKeys
 
   if (typeof propertyMap === 'undefined') {
-    propertyMap = toObject;
-    toObject = _undefined;
+    propertyMap = toObject
+    toObject = _undefined
   }
 
   if (typeof toObject === 'undefined') {
-    toObject = {};
+    toObject = {}
   }
 
-  propertyKeys = Object.keys(propertyMap);
+  propertyKeys = Object.keys(propertyMap)
 
-  return _map(fromObject, toObject, propertyMap, propertyKeys);
+  return _map(fromObject, toObject, propertyMap, propertyKeys)
 }
-module.exports = ObjectMapper;
-module.exports.merge = ObjectMapper;
-module.exports.getKeyValue = getKeyValue;
-module.exports.setKeyValue = setKeyValue;
+
+module.exports = ObjectMapper
+module.exports.merge = ObjectMapper
+module.exports.getKeyValue = getKeyValue
+module.exports.setKeyValue = setKeyValue
 
 /**
  * Function that handle each key from map
@@ -45,23 +47,24 @@ module.exports.setKeyValue = setKeyValue;
  * @private
  * @recursive
  */
+
 function _map(fromObject, toObject, propertyMap, propertyKeys) {
-  var fromKey
-    , toKey
-    ;
+  var fromKey, toKey
 
   if (propertyKeys.length) {
-    fromKey = propertyKeys.splice(0, 1)[0];
+    // Takes first item off array and assigns it to fromKey
+    fromKey = propertyKeys.splice(0, 1)[0]
     if (propertyMap.hasOwnProperty(fromKey)) {
-      toKey = propertyMap[fromKey];
+      // Destination object field location
+      toKey = propertyMap[fromKey]
 
-      toObject = _mapKey(fromObject, fromKey, toObject, toKey);
+      toObject = _mapKey(fromObject, fromKey, toObject, toKey)
     } else {
-      toObject = null;
+      toObject = null
     }
-    return _map(fromObject, toObject, propertyMap, propertyKeys);
+    return _map(fromObject, toObject, propertyMap, propertyKeys)
   } else {
-    return toObject;
+    return toObject
   }
 }
 
@@ -74,41 +77,48 @@ function _map(fromObject, toObject, propertyMap, propertyKeys) {
  * @private
  * @recursive
  */
-function _mapKey(fromObject, fromKey, toObject, toKey) {
-  var fromValue
-    , restToKeys
-    , _default = null
-    , transform
-    ;
 
+function _mapKey(fromObject, fromKey, toObject, toKey) {
+  var fromValue,
+    restToKeys,
+    _default = null,
+    transform
+
+  // toKey.length checks array length is not 0
   if (Array.isArray(toKey) && toKey.length) {
-    toKey = toKey.slice();
-    restToKeys = toKey.splice(1);
-    toKey = toKey[0];
+    toKey = toKey.slice()
+    restToKeys = toKey.splice(1)
+    toKey = toKey[0]
   }
 
   if (_isObject(toKey)) {
-    _default = toKey.default || null;
-    transform = toKey.transform;
-    toKey = toKey.key;
+    _default = toKey.default || null
+    transform = toKey.transform
+    toKey = toKey.key
   }
 
+  // Handles any array - even array length 0?
   if (Array.isArray(toKey)) {
-    transform = toKey[1];
-    _default = toKey[2] || null;
-    toKey = toKey[0];
+    transform = toKey[1]
+    _default = toKey[2] || null
+    toKey = toKey[0]
   }
 
+  // Applies default value
   if (typeof _default === 'function') {
-    _default = _default(fromObject, fromKey, toObject, toKey);
+    _default = _default(fromObject, fromKey, toObject, toKey)
   }
 
-  fromValue = getKeyValue(fromObject, fromKey);
+  fromValue = getKeyValue(fromObject, fromKey)
   if (typeof fromValue === 'undefined' || fromValue === null) {
-    fromValue = _default;
+    fromValue = _default
   }
 
-  if (typeof fromValue !== 'undefined' && transform && typeof transform.function === 'string') {
+  if (
+    typeof fromValue !== 'undefined' &&
+    transform &&
+    typeof transform.function === 'string'
+  ) {
     var functionKey = transform.function
     var functionParameters = transform.parameters
     if (transforms[functionKey]) {
@@ -116,22 +126,29 @@ function _mapKey(fromObject, fromKey, toObject, toKey) {
     } else {
       throw new Error('No function exists for key: ' + functionKey)
     }
-    fromValue = transform(fromValue, fromObject, toObject, fromKey, toKey, functionParameters);
+    fromValue = transform(
+      fromValue,
+      fromObject,
+      toObject,
+      fromKey,
+      toKey,
+      functionParameters
+    )
   }
 
   if (typeof fromValue === 'undefined' || typeof toKey === 'undefined') {
-    return toObject;
+    return toObject
   }
 
-  toObject = setKeyValue(toObject, toKey, fromValue);
+  toObject = setKeyValue(toObject, toKey, fromValue)
 
   if (Array.isArray(restToKeys) && restToKeys.length) {
-    toObject = _mapKey(fromObject, fromKey, toObject, restToKeys);
+    toObject = _mapKey(fromObject, fromKey, toObject, restToKeys)
   }
 
-  return toObject;
+  return toObject
 }
 
-function _isObject (item) {
-  return (typeof item === "object" && !Array.isArray(item) && item !== null)
+function _isObject(item) {
+  return typeof item === 'object' && !Array.isArray(item) && item !== null
 }

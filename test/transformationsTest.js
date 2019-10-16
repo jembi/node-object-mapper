@@ -1,6 +1,7 @@
 'use strict'
 
 const test = require('tape')
+
 const transforms = require('../src/transform/handler')
 
 test.test('Transformations', t => {
@@ -328,7 +329,8 @@ test.test('Transformations', t => {
           testField: 'test'
         }
       }
-      const expectedOutput = '{"testArray":[{},{"testField":"test"}],"testObject":{"testField":"test"}}'
+      const expectedOutput =
+        '{"testArray":[{},{"testField":"test"}],"testObject":{"testField":"test"}}'
 
       const result = transforms['stringify'](input)
 
