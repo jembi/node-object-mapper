@@ -6,9 +6,9 @@
 
 const {codes} = require('./codes')
 const {dates} = require('./dates')
+const {oneToMany} = require('./oneToMany')
 const {primitives} = require('./primitives')
 const {tests} = require('./tests')
-const {oneToMany} = require('./oneToMany')
 
 const transform = {}
 
