@@ -6,12 +6,13 @@
 
 const {codes} = require('./codes')
 const {dates} = require('./dates')
+const {oneToMany} = require('./oneToMany')
 const {primitives} = require('./primitives')
 const {tests} = require('./tests')
 
 const transform = {}
 
-Object.assign(transform, codes, dates, primitives)
+Object.assign(transform, codes, dates, primitives, oneToMany)
 
 if (process.env.NODE_ENV === 'test') {
   Object.assign(transform, tests)
