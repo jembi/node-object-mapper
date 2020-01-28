@@ -2,15 +2,17 @@
 
 exports.oneToMany = {
   oneToAllElements: function(fromValue, _fromObject, toObject) {
-    const result = []
-    if (toObject != null && Array.isArray(Object.values(toObject)[0])) {
-      Object.values(toObject)[0].forEach(() => {
-        result.push(fromValue)
-      })
-    } else {
-      throw new Error('Incorrect values in function parameters')
+    if (toObject == null) {
+      throw new Error('Invalid value for toObject')
     }
 
+    const result = []
+    const outputArray = Object.values(toObject)[0]
+    if (Array.isArray(outputArray)) {
+      outputArray.forEach(() => {
+        result.push(fromValue)
+      })
+    }
     return result
   }
 }
