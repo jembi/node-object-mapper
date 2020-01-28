@@ -109,7 +109,7 @@ function _mapKey(fromObject, fromKey, toObject, toKey) {
     _default = _default(fromObject, fromKey, toObject, toKey)
   }
 
-  fromValue = getKeyValue(fromObject, fromKey, toObject)
+  fromValue = getKeyValue(fromObject, fromKey)
   if (typeof fromValue === 'undefined' || fromValue === null) {
     fromValue = _default
   }

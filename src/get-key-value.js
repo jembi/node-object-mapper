@@ -10,7 +10,7 @@ var minimatch = require('minimatch')
  * @returns {*}
  */
 
-function GetKeyValue(fromObject, fromKey, toObject) {
+function GetKeyValue(fromObject, fromKey) {
   var regFinishArray = /.+(\[\])/g,
     keys,
     key,
@@ -52,7 +52,7 @@ function GetKeyValue(fromObject, fromKey, toObject) {
     lastValue = null
   }
 
-  result = _getValue(fromObject, key[0], keys, toObject)
+  result = _getValue(fromObject, key[0], keys)
 
   if (Array.isArray(result) && !lastValue) {
     if (result.length) {
@@ -87,7 +87,7 @@ module.exports = GetKeyValue
  * @recursive
  */
 
-function _getValue(fromObject, key, keys, toObject) {
+function _getValue(fromObject, key, keys) {
   var regArray = /(\[\]|\[(.*)\])$/g,
     match,
     arrayIndex,
@@ -128,17 +128,7 @@ function _getValue(fromObject, key, keys, toObject) {
       if (fromObject[key] === undefined) {
         result = _getGlobValues(fromObject, key, keys)
       } else {
-        // If the destination Object is an array and the input in not an array it means that
-        // we are trying to map a single field to an array. Therefore to populate the array properly
-        // we will need to duplicate the entry data as many times as there are elements within the array
-        if (toObject != null && Array.isArray(Object.values(toObject)[0])) {
-          result = []
-          Object.values(toObject)[0].forEach(() => {
-            result.push(fromObject[key])
-          })
-        } else {
-          result = fromObject[key]
-        }
+        result = fromObject[key]
       }
     }
   } else {
