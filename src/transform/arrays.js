@@ -1,6 +1,9 @@
 'use strict'
 
-exports.oneToMany = {
+// The capturing group contains everything before the '[]' and ensures that there is at least one word character
+const getLastArray = /(.*\w)\[\]/
+
+exports.arrays = {
   oneToAllElements: function(
     fromValue,
     _fromObject,
@@ -14,10 +17,8 @@ exports.oneToMany = {
       )
     }
 
-    // The capturing group contains everything before the '[]' and ensures that there is at least one word character
-    const getLastArray = /(.*\w)\[\]/g
-
-    const lastArrayContainingSegment = getLastArray.exec(toKey)
+    let arryRegex = new RegExp(getLastArray, 'g')
+    const lastArrayContainingSegment = arryRegex.exec(toKey)
 
     if (!lastArrayContainingSegment) {
       throw new Error(`Invalid Transform Key value: ${toKey}`)
@@ -40,5 +41,34 @@ exports.oneToMany = {
       )
     }
     return result
+  },
+  appendArray: function(fromValue, _fromObject, toObject, _fromKey, toKey) {
+    let arryRegex = new RegExp(getLastArray, 'g')
+    const nestedFieldName = arryRegex.exec(toKey)
+
+    if (!nestedFieldName) {
+      throw new Error(`Invalid Transform Key: ${toKey}`)
+    }
+
+    let nestedObject = toObject
+    const arrayOfNestedFields = nestedFieldName[1].split('.')
+
+    arrayOfNestedFields.forEach((key, index) => {
+      if (arrayOfNestedFields.length - 1 === index) {
+        if (!nestedObject[key]) {
+          nestedObject[key] = [...fromValue]
+          return
+        } else {
+          nestedObject[key].push(...fromValue)
+          return
+        }
+      }
+
+      if (!nestedObject[key]) {
+        nestedObject[key] = {}
+      }
+      // Move down the nested object
+      nestedObject = nestedObject[key]
+    })
   }
 }
