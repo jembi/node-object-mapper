@@ -5,6 +5,7 @@
 // robust against file changes and additions
 
 const {arrays} = require('./arrays')
+const {objects} = require('./objects')
 const {codes} = require('./codes')
 const {dates} = require('./dates')
 const {primitives} = require('./primitives')
@@ -12,7 +13,7 @@ const {tests} = require('./tests')
 
 const transform = {}
 
-Object.assign(transform, arrays, codes, dates, primitives)
+Object.assign(transform, arrays, objects, codes, dates, primitives)
 
 if (process.env.NODE_ENV === 'test') {
   Object.assign(transform, tests)
