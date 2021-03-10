@@ -389,11 +389,7 @@ test.test('Transformations', t => {
       }
       const outputObject = {}
 
-      transforms['passThroughObject'](
-        inputObject,
-        null,
-        outputObject
-      )
+      transforms['passThroughObject'](inputObject, null, outputObject)
 
       t.deepEqual(outputObject, inputObject)
       t.end()
@@ -413,11 +409,7 @@ test.test('Transformations', t => {
         firstLevelField3: 3
       }
 
-      transforms['passThroughObject'](
-        inputObject,
-        null,
-        outputObject
-      )
+      transforms['passThroughObject'](inputObject, null, outputObject)
 
       t.deepEqual(outputObject, expectedObject)
       t.end()
