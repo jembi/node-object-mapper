@@ -380,4 +380,47 @@ test.test('Transformations', t => {
       t.end()
     })
   })
+
+  t.test('passThroughObject()', t => {
+    t.test('input object should equal output object', t => {
+      const inputObject = {
+        firstLevelField1: 1,
+        firstLevelField2: {secondLevelField: 2}
+      }
+      const outputObject = {}
+
+      transforms['passThroughObject'](
+        inputObject,
+        null,
+        outputObject
+      )
+
+      t.deepEqual(outputObject, inputObject)
+      t.end()
+    })
+
+    t.test('input object data should be added to output object data', t => {
+      const inputObject = {
+        firstLevelField1: 1,
+        firstLevelField2: {secondLevelField: 2}
+      }
+      const outputObject = {
+        firstLevelField3: 3
+      }
+      const expectedObject = {
+        firstLevelField1: 1,
+        firstLevelField2: {secondLevelField: 2},
+        firstLevelField3: 3
+      }
+
+      transforms['passThroughObject'](
+        inputObject,
+        null,
+        outputObject
+      )
+
+      t.deepEqual(outputObject, expectedObject)
+      t.end()
+    })
+  })
 })
